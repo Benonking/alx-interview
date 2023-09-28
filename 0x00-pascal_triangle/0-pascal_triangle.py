@@ -8,15 +8,16 @@ Methods:
 
 def pascal_triangle(n: int):
     '''
-    Metnod definition
+    Method definition
     '''
-    tri = [[1]]
-    if n <= 0:
+    if (n <= 0):
         return []
-    for i in range(n - 1):
-        temp = [0] + tri[-1] + [0]
-        row = []
+    tri = [[1]]
+
+    for i in range(n - 1):  # num of rows
+        temp = [0] + tri[-1] + [0]  # append 0's at end of prev row
+        next_row = []  # next row
         for j in range(len(tri[-1]) + 1):
-            row.append(temp[j] + temp[j+1])
-        tri.append(row)
+            next_row.append(temp[j] + temp[j + 1])
+        tri.append(next_row)
     return tri
