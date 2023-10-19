@@ -1,46 +1,81 @@
 #!/usr/bin/python3
-'''
-Read stdin line by line and compute metrics
-'''
+
+"""
+Log parsing
+"""
 
 import sys
-import re
-from collections import defaultdict
 
+if __name__ == '__main__':
 
-def get_status_code(line):
-    '''extract status code'''
-    match = re.match(r'"GET .+ (\d{3})', line)
-    if match:
-        return int(match.group(1))
-    return None
+    filesize, count = 0, 0
+    codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    stats = {k: 0 for k in codes}
 
-
-def main():
-    file_size = 0
-    status_codes = defaultdict(int)
-    line_count = 0
+    def print_stats(stats: dict, file_size: int) -> None:
+        print("File size: {:d}".format(filesize))
+        for k, v in sorted(stats.items()):
+            if v:
+                print("{}: {}".format(k, v))
 
     try:
         for line in sys.stdin:
-            line = line.strip()
-            match = re.match(r'^S+ - \[.+] "GET ." \d{3} \d+$', line)
-            if not match:
-                continue
-            file_size += int(line.split()[-1])
-            status_code = get_status_code(line)
-
-            if status_code is not None:
-                status_codes[status_code] += 1
-
-            line_count += 1
-
-            if line_count % 10 == 0:
-                print("Total file size: File size:", file_size)
-            for code in sorted(status_codes):
-                print(f"{code}: {status_codes[code]}")
-
+            count += 1
+            data = line.split()
+            try:
+                status_code = data[-2]
+                if status_code in stats:
+                    stats[status_code] += 1
+            except BaseException:
+                pass
+            try:
+                filesize += int(data[-1])
+            except BaseException:
+                pass
+            if count % 10 == 0:
+                print_stats(stats, filesize)
+        print_stats(stats, filesize)
     except KeyboardInterrupt:
-        print("Total file size: File size:", file_size)
-        for code in sorted(status_codes):
-            print(f"{code}: {status_codes[code]}")
+        print_stats(stats, filesize)
+        raise
+
+# import re
+# import sys
+# from collections import defaultdict
+
+# if __name__ == "__main__":
+#     # Regular expression pattern for the input format
+#     input_pattern = re.compile(r'^\S+ - \[.+\] "GET .+ (\d{3}) (\d+)$')
+
+#     def main():
+#         total_file_size = 0
+#         status_codes = defaultdict(int)
+#         line_count = 0
+
+#         try:
+#             for line in sys.stdin:
+#                 line = line.strip()
+#                 match = input_pattern.match(line)
+#                 if not match:
+#                     continue
+
+#                 status_code, file_size = match.groups()
+#                 status_code = int(status_code)
+#                 file_size = int(file_size)
+
+#                 total_file_size += file_size
+#                 status_codes[status_code] += 1
+
+#                 line_count += 1
+
+#                 if line_count % 10 == 0:
+#                     print("Total file size:", total_file_size)
+#                     for code in sorted(status_codes):
+#                         if code in [200, 301, 400, 401, 403, 404, 405, 500]:
+#                             print(f"{code}: {status_codes[code]}")
+
+#         except KeyboardInterrupt:
+#             print("Total file size:", total_file_size)
+#             for code in sorted(status_codes):
+#                 if code in [200, 301, 400, 401, 403, 404, 405, 500]:
+#                     print(f"{code}: {status_codes[code]}")
