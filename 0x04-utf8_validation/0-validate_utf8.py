@@ -3,6 +3,8 @@
 Module 0-Validate_utf8
 Define function validateUTF8 - checks if a dataset id utf-8 valid or  not
 '''
+
+
 def validUTF8(data):
     '''
     '''
@@ -19,7 +21,8 @@ def validUTF8(data):
             else:
                 return False
         else:
-            # Determine the number of continuation bytes for the current character
+            # Determine the number of continuation
+            # bytes for the current character
             if (byte >> 7) == 0b0:
                 # 1-byte character (0xxxxxxx)
                 continuation_bytes = 0
@@ -35,5 +38,6 @@ def validUTF8(data):
             else:
                 return False
 
-    # If there are remaining expected continuation bytes, it's an invalid sequence
+    # If there are remaining expected continuation
+    # bytes, it's an invalid sequence
     return continuation_bytes == 0
