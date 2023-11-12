@@ -24,4 +24,4 @@ function getMovieCharacters (id) {
     });
   });
 }
-getMovieCharacters(id)
+getMovieCharacters(id);
