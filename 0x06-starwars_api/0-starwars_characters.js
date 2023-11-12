@@ -3,6 +3,8 @@
 
 const request = require('request');
 
+const id = process.argv[2];
+
 function getMovieCharacters (id) {
   const url = `https://swapi-api.alx-tools.com/api/films/${id}`;
   request(url, (err, resp, body) => {
@@ -23,11 +25,4 @@ function getMovieCharacters (id) {
   });
 }
 
-// Check if a movie ID is provided as a command-line argument
-const movieId = process.argv[2];
-if (!movieId) {
-  process.exit(1);
-}
-
-// Call the function with the provided movie ID
-getMovieCharacters(movieId);
+getMovieCharacters(id);
