@@ -24,3 +24,4 @@ function getMovieCharacters (id) {
     });
   });
 }
+getMovieCharacters(id)
