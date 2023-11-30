@@ -32,9 +32,9 @@ def island_perimeter(grid):
         return perimeter
 
     # Find the first land cell to start the traversal
-    for i in range(rows):
-        for j in range(cols):
-            if grid[i][j] == 1:
-                return dfs(i, j)
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 1:
+                return dfs(row, col)
     # No island found
     return 0
