@@ -20,11 +20,12 @@ def island_perimeter(grid):
     cols = len(grid[0])
 
     def dfs(row, col):
-        if row < 0 or row >= rows or col < 0 or col > cols or grid[row][col] == 0:
+        if row < 0 or row >= rows or col < 0 or \
+                col > cols or grid[row][col] == 0:
             return 1
         if grid[row][col] == -1:
             return 0  # already visited
-        
+
         # set node to already visited
         grid[row][col] = -1
         perimeter = dfs(row-1, col) + dfs(row+1, col) + \
