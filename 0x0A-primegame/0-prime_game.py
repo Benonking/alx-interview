@@ -2,7 +2,6 @@
 '''
 Determine Winner of game
 '''
-from typing import List
 
 
 def is_prime(num):
