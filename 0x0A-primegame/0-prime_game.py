@@ -5,6 +5,9 @@ Determine Winner of game
 
 
 def is_prime(num):
+    '''
+    check for prime number
+    '''
     if num < 2:
         return False
     for i in range(2, int(num**0.5) + 1):
@@ -14,12 +17,23 @@ def is_prime(num):
 
 
 def optimal_move(nums):
+    '''
+    select the smallest prime number
+    '''
     for num in range(2, max(nums) + 1):
         if is_prime(num):
             return num
 
 
 def isWinner(x, nums):
+    '''
+    Args:
+        x: number of rounds palyed
+        nums: an array of n
+    Returns: name of winner or None
+    Assumptions: n and x will not be larger than 10000
+                Maria always plays first
+    '''
     maria_wins = 0
     ben_wins = 0
 
